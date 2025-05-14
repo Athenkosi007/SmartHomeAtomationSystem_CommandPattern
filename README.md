@@ -11,8 +11,9 @@ Undo the last executed command
 
 User-friendly prompts for interaction
 #
-#🧠 Design Pattern Used
+🧠 Design Pattern Used
 Command Pattern
+
 The Command pattern encapsulates a request as an object, thereby allowing:
 
 Parameterizing clients with queues, requests, or operations
