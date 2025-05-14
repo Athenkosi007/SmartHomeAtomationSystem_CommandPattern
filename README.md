@@ -23,21 +23,4 @@ Decoupling the invoker (RemoteControl) from the receiver (Light, MusicPlayer, Th
 
 Each device operation is encapsulated in a command class implementing the ICommand interface.
 
-SmartHomeControl/
-│
-├── ICommand.cs               # Command interface
-├── RemoteControl.cs          # Invoker class
-│
-├── Devices/
-│   ├── Light.cs
-│   ├── MusicPlayer.cs
-│   └── Thermostat.cs         # Receivers
-│
-├── Commands/
-│   ├── LightOnCommand.cs
-│   ├── LightOffCommand.cs
-│   ├── PlayMusicCommand.cs
-│   ├── StopMusicCommand.cs
-│   └── SetTemperatureCommand.cs
-│
-└── Program.cs                # Console UI
+
