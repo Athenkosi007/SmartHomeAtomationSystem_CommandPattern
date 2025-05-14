@@ -1,6 +1,6 @@
 ﻿namespace SmartHomeAtomationSystem_CommandPattern
 {
-    internal class Program
+    class Program
     {
         static void Main()
         {
@@ -10,22 +10,60 @@
             var musicPlayer = new MusicPlayer();
             var thermostat = new Thermostat();
 
-            var lightCommand = new LightOnCommand(light);
-            var musicCommand = new PlayMusicCommand(musicPlayer);
-            var tempCommand = new SetTemperatureCommand(thermostat, 22);
+            while (true)
+            {
+                Console.WriteLine("\n--- Smart Home Control ---");
+                Console.WriteLine("1. Light");
+                Console.WriteLine("2. Music");
+                Console.WriteLine("3. Thermostat");
+                Console.WriteLine("4. Undo last command");
+                Console.WriteLine("5. Exit");
+                Console.Write("Choose a device (1-5): ");
 
-            remote.SendCommand(lightCommand);
-            remote.SendCommand(musicCommand);
-            remote.SendCommand(tempCommand);
+                var input = Console.ReadLine();
 
-            Console.WriteLine("\nUndoing last command:");
-            remote.UndoLastCommand();
+                switch (input)
+                {
+                    case "1":
+                        Console.Write("Turn light ON or OFF? (on/off): ");
+                        var lightChoice = Console.ReadLine()?.ToLower();
+                        if (lightChoice == "on")
+                            remote.SendCommand(new LightOnCommand(light));
+                        else
+                            remote.SendCommand(new LightOffCommand(light));
+                        break;
 
-            Console.WriteLine("\nUndoing all:");
-            remote.UndoLastCommand();
-            remote.UndoLastCommand();
-            remote.UndoLastCommand();
+                    case "2":
+                        Console.Write("Turn music ON or OFF? (on/off): ");
+                        var musicChoice = Console.ReadLine()?.ToLower();
+                        if (musicChoice == "on")
+                            remote.SendCommand(new PlayMusicCommand(musicPlayer));
+                        else
+                            remote.SendCommand(new StopMusicCommand(musicPlayer));
+                        break;
 
+                    case "3":
+                        Console.Write("Enter temperature in °C: ");
+                        if (int.TryParse(Console.ReadLine(), out int temp))
+                            remote.SendCommand(new SetTemperatureCommand(thermostat, temp));
+                        else
+                            Console.WriteLine("❌ Invalid temperature.");
+                        break;
+
+                    case "4":
+                        remote.UndoLastCommand();
+                        break;
+
+                    case "5":
+                        Console.WriteLine("👋 Exiting Smart Home System.");
+                        return;
+
+                    default:
+                        Console.WriteLine("❌ Invalid choice.");
+                        break;
+                }
+            }
         }
     }
+
 }
